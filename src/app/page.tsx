@@ -1,101 +1,49 @@
-import Image from "next/image";
+import Tabela from "./components/Tabela";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+    <div className="">
+      <div className="  relative bg-[url('/universidades-publicas-o-que-sao-importancia-lista-insituicoes.jpg')] bg-no-repeat bg-cover bg-center h-screen w-screen overflow-hidden">
+        <div className=" grid justify-items-center absolute inset-0 bg-black bg-opacity-70 ">
+          <div className="content-center text-white text-5xl  font-bold">
+            <h1>Bem-Vindo ao</h1>
+            <br />
+            <h1> SUP - UFGJW</h1>
+          </div>
+          <div>
+            <p className="text-white font-light  text-xl text-center mx-60">
+              O <b>SUP - UFGWF </b> é uma iniciativa criada para unificar o
+              gerenciamento de projetos da universidade, além de facilitar o
+              acesso da comunidade externa ao conhecimeto gerado.
+            </p>
+          </div>
+          <a href="/projetos">
+            <button className=" h-10 w-auto px-4 font-bold text-white border-4 border-white-600 rounded-full ">
+              Ver Projetos
+            </button>
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+      <div className="bg-zinc-900 h-screen">
+        <h1 className="text-white font-bold text-4xl text-center pt-5">
+          Projetos em andamento
+        </h1>
+        <div className="my-10 flex justify-center">
+          <div className=" h-96   rounded-md bg-white overflow-x-auto">
+            <Tabela></Tabela>
+          </div>
+        </div>
+        <hr className=" mx-16 " />
+        <div className="bg-zinc-900">
+          <h1 className="text-white font-bold text-4xl text-center pt-5">
+            Entre em contato
+          </h1>
+
+          <p className="text-white mt-10 ml-20">Email: sup@ufgwj.edu.br</p>
+          <p className="text-white ml-20">Telefone: (37) 99946-9759</p>
+          <p className="text-white ml-20 pb-10 ">&copy; 2024 UFGWJ</p>
+        </div>
+      </div>
     </div>
   );
 }
