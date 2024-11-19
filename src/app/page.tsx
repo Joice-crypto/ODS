@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Tabela from "./components/Tabela";
 
 export default function Home() {
@@ -17,14 +18,14 @@ export default function Home() {
               acesso da comunidade externa ao conhecimeto gerado.
             </p>
           </div>
-          <a href="/projetos">
+          <Link href="/projetos">
             <button className=" h-10 w-auto px-4 font-bold text-white border-4 border-white-600 rounded-full ">
               Ver Projetos
             </button>
-          </a>
+          </Link>
         </div>
       </div>
-      <div className="bg-zinc-900 h-screen">
+      <div className="bg-zinc-900 w-screen h-auto ">
         <h1 className="text-white font-bold text-4xl text-center pt-5">
           Projetos em andamento
         </h1>
@@ -34,14 +35,38 @@ export default function Home() {
           </div>
         </div>
         <hr className=" mx-16 " />
-        <div className="bg-zinc-900">
-          <h1 className="text-white font-bold text-4xl text-center pt-5">
+        <div className="bg-white">
+          <h1 className="text-black font-bold text-4xl text-center pt-5">
             Entre em contato
           </h1>
 
-          <p className="text-white mt-10 ml-20">Email: sup@ufgwj.edu.br</p>
-          <p className="text-white ml-20">Telefone: (37) 99946-9759</p>
-          <p className="text-white ml-20 pb-10 ">&copy; 2024 UFGWJ</p>
+          <div className="my-10">
+            <div className=" mx-36 mb-10 drop-shadow-md border-x-2 border-b-2 border-grey-100">
+              <div className="space-y-4 grid pl-10 pb-4">
+                <h2 className="font-semibold underline">
+                  EDUCAÇÃO A DISTÂNCIA
+                </h2>
+                <p className="text-black ">Email: sup@ufgwj.edu.br</p>
+                <p className="text-black ">Telefone: (37) 99999-9999</p>
+              </div>
+            </div>
+            <div className=" mx-36 mb-10  drop-shadow-md border-x-2 border-b-2 border-grey-100">
+              <div className="space-y-4 grid pl-10 pb-4">
+                <h2 className="font-semibold underline">
+                  MATRÍCULAS E TRANSFERÊNCIAS
+                </h2>
+                <p className="text-black ">Email: sup@ufgwj.edu.br</p>
+                <p className="text-black ">Telefone: (37) 99999-9999</p>
+              </div>
+            </div>
+            <div className=" mx-36 mb-10  drop-shadow-md border-x-2 border-b-2 border-grey-100">
+              <div className="space-y-4 grid pl-10 pb-4">
+                <h2 className="font-semibold underline">REITORIA</h2>
+                <p className="text-black ">Email: sup@ufgwj.edu.br</p>
+                <p className="text-black ">Telefone: (37) 99999-9999</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

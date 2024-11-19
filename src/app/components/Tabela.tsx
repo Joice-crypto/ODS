@@ -107,27 +107,27 @@ function Tabela() {
               <th className="px-4 py-2">Área de Estudo</th>
             </tr>
           </thead>
-          <tbody className="">
+          <tbody>
             {dadosFiltrados.map((item, index) => {
               const { color, id } = getStatusColor(item.status);
               return (
-                <tr key={index}>
-                  <td className=" shadow-inner text-base rounded-full px-4 py-2">
+                <tr className="space-y-4 " key={index}>
+                  <td className=" shadow-inner text-base rounded-md px-4 py-2">
                     {item.projeto}
                   </td>
-                  <td className=" shadow-inner text-base rounded-full px-4  py-2">
+                  <td className=" shadow-inner text-base rounded-md px-4  py-2">
                     {item.orientador}
                   </td>
-                  <td className=" shadow-inner text-base rounded-full px-4 py-2">
+                  <td className=" shadow-inner text-base rounded-md px-4 py-2">
                     {item.orientando}
                   </td>
                   <td className={`${color}`} id={id}>
                     {item.status}
                   </td>
-                  <td className=" shadow-inner text-base rounded-full px-4 py-2">
+                  <td className=" shadow-inner text-base rounded-md px-4 py-2">
                     {item.tipo}
                   </td>
-                  <td className=" shadow-inner text-base rounded-full px-4 py-2">
+                  <td className=" shadow-inner text-base rounded-md px-4 py-2">
                     {item.area}
                   </td>
                 </tr>

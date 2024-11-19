@@ -1,21 +1,26 @@
+import Link from "next/link";
+
 export function Header() {
   return (
     <div>
-      <header className="bg-inherit ml-5 h-20 grid grid-rows-1 grid-flow-col gap-x-1">
-        <a className="text-dark text-xl font-sans p-9" href="/">
-          SUP - UFGJW
-        </a>
-        <ul className=" p-9 grid grid-rows grid-flow-col">
-          <li>Início</li>
-          <a href="/projetos">
-            <li>Projetos</li>
-          </a>
-          <li>Contato</li>
-          <a href="#">
-            <li className=" bg-black h-10 w-28 text-white rounded-full text-center pt-2">
-              Login
-            </li>
-          </a>
+      <header className=" w-screen h-20 grid grid-rows-1   ">
+        <ul className=" p-9 ">
+          <div className="flex justify-between ">
+            <Link className="text-dark text-xl font-sans " href="/">
+              SUP - UFGJW
+            </Link>
+            <li className="p-2">Início</li>
+            <Link href="/projetos">
+              <li className="p-2">Projetos</li>
+            </Link>
+            <li className="p-2">Contato</li>
+
+            <Link href="#">
+              <li className=" place-self-end  ml-20 bg-black w-36 p-2 text-white rounded-full text-center ">
+                Login
+              </li>
+            </Link>
+          </div>
         </ul>
       </header>
     </div>
