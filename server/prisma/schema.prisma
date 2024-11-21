@@ -1,0 +1,143 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SituacaoSolicitacao {
+  deferido
+  indeferido
+  em_andamento
+}
+
+model Usuario {
+  numero_cpf String @id
+  nome       String
+  senha      String
+  tipo       String
+
+  Orientador    Orientador?
+  Orientando    Orientando?
+  Coordenadoria Coordenadoria?
+}
+
+model Orientador {
+  numero_cpf        String  @id @unique
+  departamento      String
+  descricao_pessoal String?
+
+  usuario  Usuario   @relation(fields: [numero_cpf], references: [numero_cpf])
+  projetos Projeto[]
+}
+
+model Orientando {
+  numero_cpf String @id @unique
+  curso      String
+
+  Usuario            Usuario             @relation(fields: [numero_cpf], references: [numero_cpf])
+  ProjetosOrientando ProjetoOrientando[]
+}
+
+model Coordenadoria {
+  numero_cpf String @id @unique
+
+  Usuario Usuario @relation(fields: [numero_cpf], references: [numero_cpf])
+}
+
+model Projeto {
+  id                         Int       @id @default(autoincrement())
+  tipo                       String
+  nome                       String
+  data_inicio                DateTime
+  data_termino               DateTime
+  descricao                  String?
+  orientador_cpf             String
+  banca_avaliadora_convidada String?
+  apresentacoes              String?
+  banca_local                String?
+  banca_data                 DateTime?
+  status                     String?
+
+  Orientador         Orientador             @relation(fields: [orientador_cpf], references: [numero_cpf])
+  ProjetosOrientando ProjetoOrientando[]
+  Topicos            Topico[]
+  BancaAvaliadora    BancaAvaliadora[]
+  Historicos         HistoricoProjeto[]
+  Solicitacoes       SolicitacaoAlteracao[]
+}
+
+model ProjetoOrientando {
+  projeto_id           Int
+  orientando_cpf       String
+  data_entrada         DateTime
+  data_saida           DateTime
+  situacao             String
+  Orientando           Orientando? @relation(fields: [orientandoNumero_cpf], references: [numero_cpf])
+  orientandoNumero_cpf String?
+  Projeto              Projeto?    @relation(fields: [projetoId], references: [id])
+  projetoId            Int?
+
+  @@id([projeto_id, orientando_cpf])
+}
+
+model Topico {
+  id           Int       @id @default(autoincrement())
+  projeto_id   Int
+  nome         String
+  descricao    String?
+  data_termino DateTime?
+  tipo         String?
+
+  Projeto   Projeto    @relation(fields: [projeto_id], references: [id])
+  Mensagens Mensagem[]
+}
+
+model Mensagem {
+  id           Int      @id @default(autoincrement())
+  topico_id    Int
+  conteudo     String
+  enviado_por  Int
+  data_enviado DateTime
+
+  Topico Topico @relation(fields: [topico_id], references: [id])
+}
+
+model BancaAvaliadora {
+  projeto_id Int
+  membro_id  Int
+  tipo       String
+  nome       String
+  ies        String
+
+  Projeto Projeto @relation(fields: [projeto_id], references: [id])
+
+  @@id([projeto_id, membro_id])
+}
+
+model SolicitacaoAlteracao {
+  id                Int                 @id @default(autoincrement())
+  projeto_id        Int
+  assunto_principal String
+  motivo            String
+  situacao          SituacaoSolicitacao
+
+  Projeto Projeto @relation(fields: [projeto_id], references: [id])
+}
+
+model HistoricoProjeto {
+  id         Int      @id @default(autoincrement())
+  projeto_id Int
+  data       DateTime
+  conteudo   String
+
+  Projeto Projeto @relation(fields: [projeto_id], references: [id])
+}
