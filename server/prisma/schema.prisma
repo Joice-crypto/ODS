@@ -19,7 +19,7 @@ enum SituacaoSolicitacao {
   em_andamento
 }
 
-model Usuario {
+model UsuarioComum {
   numero_cpf String @id
   nome       String
   senha      String
@@ -35,22 +35,22 @@ model Orientador {
   departamento      String
   descricao_pessoal String?
 
-  usuario  Usuario   @relation(fields: [numero_cpf], references: [numero_cpf])
-  projetos Projeto[]
+  usuarioComum UsuarioComum @relation(fields: [numero_cpf], references: [numero_cpf])
+  projetos     Projeto[]
 }
 
 model Orientando {
   numero_cpf String @id @unique
   curso      String
 
-  Usuario            Usuario             @relation(fields: [numero_cpf], references: [numero_cpf])
+  UsuarioComum       UsuarioComum        @relation(fields: [numero_cpf], references: [numero_cpf])
   ProjetosOrientando ProjetoOrientando[]
 }
 
 model Coordenadoria {
   numero_cpf String @id @unique
 
-  Usuario Usuario @relation(fields: [numero_cpf], references: [numero_cpf])
+  UsuarioComum UsuarioComum @relation(fields: [numero_cpf], references: [numero_cpf])
 }
 
 model Projeto {

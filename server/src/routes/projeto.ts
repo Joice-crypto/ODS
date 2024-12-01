@@ -4,19 +4,6 @@ import { z } from 'zod'
 
 export async function ProjetoRoutes(app: FastifyInstance) {
 
-
-    app.get('/projetos', async (request) => {
-
-        // visualizar todos os projetos
-        const projetos = await prisma.projeto.findMany({
-            orderBy: {
-                id: 'asc',
-            },
-        })
-
-        return projetos
-    })
-
     app.post('/projeto', async (request) => {
         // cadastrar projeto
         const bodySchema = z.object({

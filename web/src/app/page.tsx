@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Tabela from "./components/Tabela";
+import Tabela from "../components/Tabela";
 
 export default function Home() {
   return (
