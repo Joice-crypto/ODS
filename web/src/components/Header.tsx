@@ -1,47 +1,48 @@
 import Link from "next/link";
 import { LoginForm } from "./LoginForm";
 import { cookies } from "next/headers";
+import { HeaderOrientador } from "./HeaderOrientador";
 
-export function Header() {
-  // const isAuth = cookies().has("token");
-
-  // fazer a verificação de se o usuario esta logado ou não
-  // se estiver ele vai mudar o tipo de header
+export async function Header() {
+  const isAuth = (await cookies()).has("token");
 
   return (
     <div>
+      {isAuth ? (
+        <HeaderOrientador />
+      ) : (
+        <header className=" w-screen h-20 grid grid-rows-1">
+          <ul className=" p-9 ">
+            <div className="flex justify-between ">
+              <Link className="text-dark text-xl font-sans " href="/">
+                SUP - UFGJW
+              </Link>
+              <li className="p-2">Início</li>
+              <Link href="/projetos">
+                <li className="p-2">Projetos</li>
+              </Link>
+              <li className="p-2">Contato</li>
+
+              <li>
+                <button
+                  data-modal-target="authentication-modal"
+                  data-modal-toggle="authentication-modal"
+                  className=" text-white bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                  type="button"
+                >
+                  Login
+                </button>
+              </li>
+            </div>
+          </ul>
+        </header>
+      )}
+
       <link
         href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
         rel="stylesheet"
       />
-      <header className=" w-screen h-20 grid grid-rows-1   ">
-        <ul className=" p-9 ">
-          <div className="flex justify-between ">
-            <Link className="text-dark text-xl font-sans " href="/">
-              SUP - UFGJW
-            </Link>
-            <li className="p-2">Início</li>
-            <Link href="/projetos">
-              <li className="p-2">Projetos</li>
-            </Link>
-            <li className="p-2">Contato</li>
-
-            <li>
-              <button
-                data-modal-target="authentication-modal"
-                data-modal-toggle="authentication-modal"
-                className=" text-white bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-                type="button"
-              >
-                Login
-              </button>
-            </li>
-          </div>
-        </ul>
-      </header>
-
       <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-
       <div
         id="authentication-modal"
         aria-hidden="true"
@@ -67,9 +68,9 @@ export function Header() {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>

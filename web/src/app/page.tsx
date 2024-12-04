@@ -1,9 +1,11 @@
 import Link from "next/link";
-import Tabela from "../components/Tabela";
+// import Tabela from "../components/Tabela";
+import { Header } from "@/components/Header";
 
 export default function Home() {
   return (
     <div className="">
+      <Header></Header>
       <div className="  relative bg-[url('/universidades-publicas-o-que-sao-importancia-lista-insituicoes.jpg')] bg-no-repeat bg-cover bg-center h-screen w-screen overflow-hidden">
         <div className=" grid justify-items-center absolute inset-0 bg-black bg-opacity-70 ">
           <div className="content-center text-white text-5xl  font-bold">
@@ -31,7 +33,7 @@ export default function Home() {
         </h1>
         <div className="my-10 flex justify-center">
           <div className=" h-96   rounded-md bg-white overflow-x-auto">
-            <Tabela></Tabela>
+            {/* <Tabela></Tabela> */}
           </div>
         </div>
         <hr className=" mx-16 " />

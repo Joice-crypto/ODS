@@ -21,8 +21,8 @@ export function LoginForm() {
 
     if (result.data && result.data.token) {
       Cookie.set("token", result.data.token, { expires: 30 });
-      console.log("LOGADO");
-      router.push("/usuario");
+
+      router.push("/orientador");
     } else {
       alert("Falha na autenticação. Verifique seu CPF e senha.");
     }

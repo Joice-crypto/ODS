@@ -1,7 +1,8 @@
 import fastify from 'fastify'
 import cors from '@fastify/cors'
-import { ProjetoRoutes } from './routes/projeto'
 import { UsuarioRoutes } from './routes/usuarioComum'
+import { DepartamentoRoutes } from './routes/departamento'
+import { OrientadorRoutes } from './routes/orientador'
 
 
 // rodar com npm run dev 
@@ -14,7 +15,8 @@ app.register(cors, {
 })
 
 app.register(UsuarioRoutes)
-app.register(ProjetoRoutes)
+app.register(OrientadorRoutes)
+app.register(DepartamentoRoutes)
 
 
 app.listen({ port: 3300, }).then(() => {
