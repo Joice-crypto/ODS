@@ -1,5 +1,4 @@
 import Link from "next/link";
-// import Tabela from "../components/Tabela";
 import { Header } from "@/components/Header";
 
 export default function Home() {

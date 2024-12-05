@@ -20,11 +20,13 @@ export async function OrientadorRoutes(app: FastifyInstance) {
                 },
                 include: {
                     BancaAvaliadora: true,
+                    ProjetosOrientando: true,
                     Orientador: {
                         include: {
                             usuarioComum: true,
                         }
-                    }
+                    },
+
                 }
             });
 
@@ -100,7 +102,7 @@ export async function OrientadorRoutes(app: FastifyInstance) {
     // orientador apagar um projeto
     app.delete("/projeto/:id", async (request, reply) => {
         const paramsSchema = z.object({
-            id: z.number(),
+            id: z.coerce.number(),
         });
 
         try {
@@ -115,7 +117,11 @@ export async function OrientadorRoutes(app: FastifyInstance) {
                     .status(404)
                     .send({ error: `Projeto com ID ${id} não encontrado.` });
             }
-
+            if (projeto.status === "Em andamento") {
+                return reply
+                    .status(400)
+                    .send({ error: "O projeto está em andamento e não pode ser excluído." });
+            }
             await prisma.projeto.delete({
                 where: { id },
             });
@@ -124,7 +130,7 @@ export async function OrientadorRoutes(app: FastifyInstance) {
                 .status(200)
                 .send({ message: `Projeto com ID ${id} excluído com sucesso!` });
         } catch (error) {
-            console.error(error); // Para debug
+            console.error(error);
             return reply
                 .status(500)
                 .send({

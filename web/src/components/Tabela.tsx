@@ -1,7 +1,7 @@
 "use client";
 
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ptBr from "dayjs/locale/pt-br";
 import Link from "next/link";
 
@@ -27,6 +27,11 @@ interface TabelaProps {
 const Tabela = ({ projetos }: TabelaProps) => {
   const [filtro, setFiltro] = useState("");
   const [valorFiltro, setValorFiltro] = useState("");
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const dadosFiltrados = projetos.filter((item) => {
     if (filtro === "projeto") {
@@ -40,6 +45,9 @@ const Tabela = ({ projetos }: TabelaProps) => {
     }
     return true;
   });
+  if (!isClient) {
+    return null;
+  }
   return (
     <div className="my-10 flex flex-col items-center">
       <div className="mb-4 ml-10 w-auto max-w-4xl flex gap-4">
@@ -77,18 +85,19 @@ const Tabela = ({ projetos }: TabelaProps) => {
           <tbody>
             {dadosFiltrados.map((item) => (
               <tr key={item.id} className="space-y-4">
-                <Link
-                  href={`http://localhost:3000/projetos/informacoes/${item.id}`}
-                >
-                  <td className="shadow-inner text-base rounded-md px-4 py-2">
-                    {item.nome}
-                  </td>
-                </Link>
                 <td className="shadow-inner text-base rounded-md px-4 py-2">
-                  {dayjs(item.data_inicio).format("D[/]M[/]YY ")}
+                  <Link
+                    href={`http://localhost:3000/projetos/informacoes/${item.id}`}
+                  >
+                    {item.nome}
+                  </Link>
+                </td>
+
+                <td className="shadow-inner text-base rounded-md px-4 py-2">
+                  {dayjs(item.data_inicio).format("DD[/]MM[/]YY ")}
                 </td>
                 <td className="shadow-inner text-base rounded-md px-4 py-2">
-                  {dayjs(item.data_termino).format("D[/]M[/]YY ")}
+                  {dayjs(item.data_termino).format("DD[/]MM[/]YY ")}
                 </td>
                 <td className="shadow-inner text-base rounded-md px-4 py-2">
                   {item.status}
