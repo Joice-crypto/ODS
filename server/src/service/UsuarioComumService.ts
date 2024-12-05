@@ -4,11 +4,13 @@ import jwt from "jsonwebtoken";
 
 class UsuarioComumService {
     async visualizarProjetos() {
-        return prisma.projeto.findMany({
+        const projetos = prisma.projeto.findMany({
             orderBy: {
                 nome: "asc",
             },
         });
+
+        return projetos
     }
 
     async cadastrar(

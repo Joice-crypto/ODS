@@ -1,10 +1,45 @@
 import { FastifyInstance } from "fastify";
 import { prisma } from "../lib/prisma";
 import { z } from "zod";
+import { request } from "express";
 
 export async function OrientadorRoutes(app: FastifyInstance) {
+    // ver um projeto especifico
+    app.get("/projeto/:projeto_id", async (request, reply) => {
+        const paramsSchema = z.object({
+            projeto_id: z.coerce.number(),
+        });
+
+        const { projeto_id } = paramsSchema.parse(request.params);
+        console.log(projeto_id);
+
+        try {
+            const projeto = await prisma.projeto.findUniqueOrThrow({
+                where: {
+                    id: projeto_id,
+                },
+                include: {
+                    BancaAvaliadora: true,
+                    Orientador: {
+                        include: {
+                            usuarioComum: true,
+                        }
+                    }
+                }
+            });
+
+            return projeto;
+        } catch (error) {
+            console.error("Erro ao buscar projeto:", error);
+            return reply.status(404).send({ error: "Projeto não encontrado." });
+        }
+    });
+
+
     // orientador cadastra projeto
     app.post("/projeto", async (request) => {
+
+        // console.log(request.body)
         // cadastrar projeto
         const bodySchema = z.object({
             tipo: z.string(),
@@ -12,13 +47,14 @@ export async function OrientadorRoutes(app: FastifyInstance) {
             data_inicio: z.coerce.date(),
             data_termino: z.coerce.date(),
             descricao: z.string(),
-            orientador_cpf: z.string(),
+            orientador_cpf: z.coerce.string(),
             banca_avaliadora_convidada: z.string(),
             apresentacoes: z.string(),
             banca_local: z.string(),
             banca_data: z.coerce.date(),
             status: z.string(),
         });
+
 
         const {
             tipo,
@@ -33,6 +69,16 @@ export async function OrientadorRoutes(app: FastifyInstance) {
             banca_data,
             status,
         } = bodySchema.parse(request.body);
+
+
+        const orientador = await prisma.orientador.findUnique({
+            where: { numero_cpf: orientador_cpf },
+        });
+
+        if (!orientador) {
+            throw new Error("Orientador não encontrado. Certifique-se de que o CPF está correto.");
+        }
+
         const projeto = await prisma.projeto.create({
             data: {
                 tipo,
@@ -198,7 +244,7 @@ export async function OrientadorRoutes(app: FastifyInstance) {
     app.post("/projeto/bancaAvaliadora", async (request, reply) => {
         const bodySchema = z.object({
             projeto_id: z.coerce.number(),
-            membro_id: z.coerce.number(),
+            membro_id: z.string(),
             tipo: z.string(),
             nome: z.string(),
             ies: z.string(),
@@ -206,22 +252,40 @@ export async function OrientadorRoutes(app: FastifyInstance) {
         });
 
         try {
-            const { projeto_id, membro_id, tipo, nome, ies } =
-                bodySchema.parse(request.body);
+            const { projeto_id, membro_id, tipo, nome, ies } = bodySchema.parse(request.body);
+            let membroIdFinal = membro_id;
+            if (membro_id.toLowerCase() === "sim") {
+
+                const orientador = await prisma.orientador.findFirst({
+                    where: {
+                        usuarioComum: {
+                            nome: nome,
+                            tipo: 1,
+                        },
+                    },
+                    include: {
+                        usuarioComum: true,
+                    },
+                });
+
+                if (!orientador) {
+                    return reply.status(404).send({ error: "Orientador não encontrado ou não é do tipo correto." });
+                }
+
+
+                membroIdFinal = orientador.numero_cpf;
+            }
 
             const projeto = await prisma.projeto.findUnique({
                 where: { id: projeto_id },
             });
 
-            if (!projeto) {
-                return reply.status(404).send({ error: "Projeto não encontrado." });
-            }
 
 
             const membroBanca = await prisma.bancaAvaliadora.create({
                 data: {
                     projeto_id,
-                    membro_id,
+                    membro_id: membroIdFinal,
                     nome,
                     tipo,
                     ies,
@@ -229,11 +293,11 @@ export async function OrientadorRoutes(app: FastifyInstance) {
             });
 
             return reply.status(201).send({
-                message: "Membro cadastrado com sucesso.",
+                message: "Banca registrada com sucesso.",
                 membroBanca,
             });
         } catch (error) {
-            console.error(error);
+            // console.error(error);
             return reply.status(400).send({ error: error.message });
         }
     });

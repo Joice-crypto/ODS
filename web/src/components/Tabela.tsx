@@ -1,143 +1,111 @@
-// "use client";
-// import React, { useState } from "react";
+"use client";
 
-// function Tabela() {
-//   const [filtro, setFiltro] = useState("");
-//   const [valorFiltro, setValorFiltro] = useState("");
-//   const dados = [
-//     {
-//       projeto: "Projeto A",
-//       orientador: "Dr. Silva",
-//       orientando: "Ana",
-//       status: "Concluído",
-//       tipo: "Pesquisa",
-//       area: "Tecnologia",
-//     },
-//     {
-//       projeto: "Projeto B",
-//       orientador: "Dra. Lima",
-//       orientando: "João",
-//       status: "Em andamento",
-//       tipo: "TCC",
-//       area: "Saúde",
-//     },
-//     {
-//       projeto: "Projeto C",
-//       orientador: "Dr. Souza",
-//       orientando: "Carla",
-//       status: "Pendente",
-//       tipo: "Monografia",
-//       area: "Educação",
-//     },
-//   ];
+import dayjs from "dayjs";
+import { useState } from "react";
+import ptBr from "dayjs/locale/pt-br";
+import Link from "next/link";
 
-//   const getStatusColor = (status: string): { color: string; id: string } => {
-//     switch (status) {
-//       case "Concluído":
-//         return {
-//           color:
-//             "shadow-inner text-base rounded-md text-red-400 border-2 border-red-400  flex items-center justify-center",
-//           id: "status-concluido",
-//         };
-//       case "Em andamento":
-//         return {
-//           color:
-//             "shadow-inner text-base rounded-md text-lime-600 border-2 border-lime-600  flex items-center justify-center ",
-//           id: "status-em-andamento",
-//         };
-//       case "Pendente":
-//         return {
-//           color:
-//             "shadow-inner text-base rounded-md text-blue-500 border-2 border-blue-500  flex items-center justify-center",
-//           id: "status-pendente",
-//         };
-//       default:
-//         return {
-//           color: " text-black",
-//           id: "status-indefinido",
-//         };
-//     }
-//   };
+interface Projetos {
+  id: string;
+  nome: string;
+  data_inicio: string;
+  data_termino: string;
+  descricao: string;
+  tipo: string;
+  orientador_cpf: string;
+  banca_avaliadora_convidada: string;
+  apresentacoes: string;
+  banca_local: string;
+  banca_data: string;
+  status: string;
+}
 
-//   const dadosFiltrados = dados.filter((item) => {
-//     if (filtro === "projeto") {
-//       return item.projeto.toLowerCase().includes(valorFiltro.toLowerCase());
-//     } else if (filtro === "orientador") {
-//       return item.orientador.toLowerCase().includes(valorFiltro.toLowerCase());
-//     } else if (filtro === "orientando") {
-//       return item.orientando.toLowerCase().includes(valorFiltro.toLowerCase());
-//     } else if (filtro == "status") {
-//       return item.status.toLowerCase().includes(valorFiltro.toLowerCase());
-//     }
+interface TabelaProps {
+  projetos: Projetos[];
+}
 
-//     return true;
-//   });
+const Tabela = ({ projetos }: TabelaProps) => {
+  const [filtro, setFiltro] = useState("");
+  const [valorFiltro, setValorFiltro] = useState("");
 
-//   return (
-//     <div className="my-10 flex flex-col items-center">
-//       <div className="mb-4 ml-10 w-auto max-w-4xl flex gap-4">
-//         <select
-//           className="p-2 bg-white rounded drop-shadow-md "
-//           value={filtro}
-//           onChange={(e) => setFiltro(e.target.value)}
-//         >
-//           <option value="">Selecione o filtro</option>
-//           <option value="projeto">Nome do Projeto</option>
-//           <option value="orientador">Orientador</option>
-//           <option value="orientando">Orientando</option>
-//           <option value="status">Status</option>
-//         </select>
-//         <input
-//           type="text"
-//           className="p-2 w-40 rounded drop-shadow-md"
-//           placeholder={`Filtrar por ${filtro ? filtro : "..."}`}
-//           value={valorFiltro}
-//           onChange={(e) => setValorFiltro(e.target.value)}
-//         />
-//       </div>
-//       <div className="overflow-x-hidden  max-w-4xl">
-//         <table className="table-auto -collapse bg-white mx-10 text-sm ">
-//           <thead>
-//             <tr className="text-gray-600 uppercase text-left">
-//               <th className="px-4 py-2">Nome do Projeto</th>
-//               <th className="px-4 py-2">Orientador</th>
-//               <th className="px-4 py-2">Orientando</th>
-//               <th className="px-4 py-2">Status</th>
-//               <th className="px-4 py-2">Tipo</th>
-//               <th className="px-4 py-2">Área de Estudo</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {dadosFiltrados.map((item, index) => {
-//               const { color, id } = getStatusColor(item.status);
-//               return (
-//                 <tr className="space-y-4 " key={index}>
-//                   <td className=" shadow-inner text-base rounded-md px-4 py-2">
-//                     {item.projeto}
-//                   </td>
-//                   <td className=" shadow-inner text-base rounded-md px-4  py-2">
-//                     {item.orientador}
-//                   </td>
-//                   <td className=" shadow-inner text-base rounded-md px-4 py-2">
-//                     {item.orientando}
-//                   </td>
-//                   <td className={`${color}`} id={id}>
-//                     {item.status}
-//                   </td>
-//                   <td className=" shadow-inner text-base rounded-md px-4 py-2">
-//                     {item.tipo}
-//                   </td>
-//                   <td className=" shadow-inner text-base rounded-md px-4 py-2">
-//                     {item.area}
-//                   </td>
-//                 </tr>
-//               );
-//             })}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// }
+  const dadosFiltrados = projetos.filter((item) => {
+    if (filtro === "projeto") {
+      return item.nome.toLowerCase().includes(valorFiltro.toLowerCase());
+    } else if (filtro === "status") {
+      return item.status.toLowerCase().includes(valorFiltro.toLowerCase());
+    } else if (filtro === "orientador") {
+      return item.orientador_cpf
+        .toLowerCase()
+        .includes(valorFiltro.toLowerCase());
+    }
+    return true;
+  });
+  return (
+    <div className="my-10 flex flex-col items-center">
+      <div className="mb-4 ml-10 w-auto max-w-4xl flex gap-4">
+        <select
+          className="p-2 bg-white rounded drop-shadow-md"
+          value={filtro}
+          onChange={(e) => setFiltro(e.target.value)}
+        >
+          <option value="">Selecione o filtro</option>
+          <option value="projeto">Nome do Projeto</option>
+          <option value="orientador">CPF do Orientador</option>
+          <option value="status">Status</option>
+        </select>
+        <input
+          type="text"
+          className="p-2 w-40 rounded drop-shadow-md"
+          placeholder={`Filtrar por ${filtro || "..."}`}
+          value={valorFiltro}
+          onChange={(e) => setValorFiltro(e.target.value)}
+        />
+      </div>
+      {/* Tabela */}
+      <div className="overflow-x-hidden max-w-4xl">
+        <table className="table-auto bg-white mx-10 text-sm">
+          <thead>
+            <tr className="text-gray-600 uppercase text-left">
+              <th className="px-4 py-2">Nome do Projeto</th>
+              <th className="px-4 py-2">Data Início</th>
+              <th className="px-4 py-2">Data Término</th>
+              <th className="px-4 py-2">Status</th>
+              <th className="px-4 py-2">Tipo</th>
+              <th className="px-4 py-2">Orientador (CPF)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dadosFiltrados.map((item) => (
+              <tr key={item.id} className="space-y-4">
+                <Link
+                  href={`http://localhost:3000/projetos/informacoes/${item.id}`}
+                >
+                  <td className="shadow-inner text-base rounded-md px-4 py-2">
+                    {item.nome}
+                  </td>
+                </Link>
+                <td className="shadow-inner text-base rounded-md px-4 py-2">
+                  {dayjs(item.data_inicio).format("D[/]M[/]YY ")}
+                </td>
+                <td className="shadow-inner text-base rounded-md px-4 py-2">
+                  {dayjs(item.data_termino).format("D[/]M[/]YY ")}
+                </td>
+                <td className="shadow-inner text-base rounded-md px-4 py-2">
+                  {item.status}
+                </td>
+                <td className="shadow-inner text-base rounded-md px-4 py-2">
+                  {item.tipo}
+                </td>
+                <td className="shadow-inner text-base rounded-md px-4 py-2">
+                  {item.orientador_cpf}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
 
-// export default Tabela;
+export default Tabela;

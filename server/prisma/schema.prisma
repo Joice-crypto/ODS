@@ -111,7 +111,7 @@ model Mensagem {
 
 model BancaAvaliadora {
   projeto_id Int
-  membro_id  Int
+  membro_id  String
   tipo       String
   nome       String
   ies        String

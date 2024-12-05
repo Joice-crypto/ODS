@@ -9,7 +9,7 @@ export async function HeaderOrientador() {
       <header className=" w-screen h-20 grid grid-rows-1">
         <ul className=" p-9 ">
           <div className="flex justify-between ">
-            <Link className="text-dark text-xl font-sans " href="/coordenador">
+            <Link className="text-dark text-xl font-sans " href="/orientador">
               SUP - UFGJW
             </Link>
             <p>Bem-Vindo(a), {(await user).name}</p>
