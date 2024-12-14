@@ -156,7 +156,8 @@ export function ProjCadastro() {
             <option>...</option>
             <option value="Em andamento">Em andamento</option>
             <option value="Encerrado">Encerrado</option>
-            <option value="Em preparação"></option>
+            <option value="Cadastrado"></option>
+            <option value="Cancelado"></option>
           </select>
         </div>
 

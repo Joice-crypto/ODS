@@ -1,7 +1,18 @@
 import Link from "next/link";
 import { Header } from "@/components/Header";
+import { api } from "@/lib/api";
+import { cookies } from "next/headers";
+import TabelaUserComum from "@/components/TabelaUserComum";
 
-export default function Home() {
+export default async function Home() {
+  const token = (await cookies()).has("token");
+  const response = await api.get("/projetos", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const projetos = await response.data;
   return (
     <div className="">
       <Header></Header>
@@ -32,7 +43,7 @@ export default function Home() {
         </h1>
         <div className="my-10 flex justify-center">
           <div className=" h-96   rounded-md bg-white overflow-x-auto">
-            {/* <Tabela></Tabela> */}
+            <TabelaUserComum projetos={projetos}></TabelaUserComum>
           </div>
         </div>
         <hr className=" mx-16 " />

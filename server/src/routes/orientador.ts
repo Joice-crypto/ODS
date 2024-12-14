@@ -4,6 +4,20 @@ import { z } from "zod";
 import { request } from "express";
 
 export async function OrientadorRoutes(app: FastifyInstance) {
+
+    // app.get("projetos/orientador", async (request, reply) => {
+    //     const projetos = prisma.projeto.findMany({
+    //         where: { orientador_cpf:  },
+    //         orderBy: {
+    //             nome: "asc",
+    //         },
+    //     });
+
+    //     return projetos
+    // })
+
+
+
     // ver um projeto especifico
     app.get("/projeto/:projeto_id", async (request, reply) => {
         const paramsSchema = z.object({
